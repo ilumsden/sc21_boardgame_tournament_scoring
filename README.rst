@@ -1,13 +1,14 @@
-=============================================
-SC21 Students@SC Boardgame Tournament Scoring
-=============================================
+===============================================
+SC21 `Students@SC` Boardgame Tournament Scoring
+===============================================
 
-This repository contains the Python code that is used to determine the winners of the Students@SC Boardgame Tournament.
+This repository contains the Python code that is used to determine the winners of the `Students@SC` Boardgame Tournament.
 
 Dependencies
 ============
 
 The Python code in this repository depends on the following:
+
 - Python 3
 - `Pandas <https://pandas.pydata.org/>`_
 - `Numpy <https://numpy.org/>`_
@@ -33,6 +34,7 @@ The configuration file is a TOML file that provides relevant data on each game i
    placement_based = [True|False]
 
 The fields for each game are as follows:
+
 - :code:`game_name`: the name (i.e., unique identifier) of the game
 - :code:`max_ranking_points`: the maximum number of points that this game can contribute towards a contestant's overall score
 - :code:`number_of_scores`: the number of scores that this game will contribute towards a contestant's overall score
@@ -45,6 +47,7 @@ Score File Specification
 ------------------------
 
 The score file is a CSV file containing information about the results of games played. Each row in this file represents a single contestant's result for a single instance of a game. There are three columns in this file:
+
 1) The :code:`name` column, which specifies the contestant's name
 2) The :code:`game` column, which specifies the game the contestant played
 3) The :code:`score` column, which specifies the contestant's score/placement in the game
