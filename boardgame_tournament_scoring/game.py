@@ -36,4 +36,4 @@ class Game:
         return hash(self.name)
 
     def __str__(self):
-        print(name)
+        print(self.name)
