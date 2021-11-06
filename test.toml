@@ -3,17 +3,17 @@ config_id = "Test Config"
 [Game1]
 max_ranking_points = 10
 number_of_scores = 1
-number_of_players = 4
+num_player_range = [4, 4]
 placement_based = false
 
 [Game2]
 max_ranking_points = 10
 number_of_scores = 1
-number_of_players = 8
+num_player_range = [8, 8]
 placement_based = true
 
 [Game3]
 max_ranking_points = 10
 number_of_scores = 2
-number_of_players = 6
+num_player_range = [2, 6]
 placement_based = false

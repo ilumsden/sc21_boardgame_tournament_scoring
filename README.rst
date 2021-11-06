@@ -30,15 +30,15 @@ The configuration file is a TOML file that provides relevant data on each game i
    [game_name]
    max_ranking_points = ...
    number_of_scores = ...
-   number_of_players = ...
-   placement_based = [True|False]
+   num_player_range = ...
+   placement_based = True|False
 
 The fields for each game are as follows:
 
 - :code:`game_name`: the name (i.e., unique identifier) of the game
 - :code:`max_ranking_points`: the maximum number of points that this game can contribute towards a contestant's overall score
 - :code:`number_of_scores`: the number of scores that this game will contribute towards a contestant's overall score
-- :code:`number_of_players`: the maximum number of players for the game
+- :code:`num_player_range`: a list of two numbers (e.g., `[#, #]`) specifying the minimum and maximum number of people how can play in a single session of the game 
 - :code:`placement_based`: if true, scores for this game should be interpreted as placements (i.e., rankings in a single instance of the game).
 
 Check out :code:`test.toml` for an example of a configuration file.
@@ -46,11 +46,12 @@ Check out :code:`test.toml` for an example of a configuration file.
 Score File Specification
 ------------------------
 
-The score file is a CSV file containing information about the results of games played. Each row in this file represents a single contestant's result for a single instance of a game. There are three columns in this file:
+The score file is a CSV file containing information about the results of games played. Each row in this file represents a single contestant's result for a single instance of a game. There are four columns in this file:
 
 1) The :code:`name` column, which specifies the contestant's name
 2) The :code:`game` column, which specifies the game the contestant played
 3) The :code:`score` column, which specifies the contestant's score/placement in the game
+4) The :code:`num_players` column, which specifies the number of players in the game
 
 The only other requirement for the score file is that entries in the :code:`game` column **must** match one of the :code:`game_name` fields in the configuration file. If an entry does not match one of these fields, the row will be treated as if it represents an unknown game, and, thus, it will be dropped.
 
