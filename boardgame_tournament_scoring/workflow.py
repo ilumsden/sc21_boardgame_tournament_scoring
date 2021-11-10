@@ -27,42 +27,29 @@ def split_score_df_by_game(score_df, games):
 def get_max_scores_no_placing(per_game_dfs, games):
     max_scores = {}
     for g in games:
-        if not g.placement_based:
-            max_scores[g] = per_game_dfs[g]["score"].max()
+        max_scores[g] = per_game_dfs[g]["score"].max()
     return max_scores
 
-def get_normalized_scores(per_game_dfs, max_scores, games):
+def get_normalized_scores(per_game_dfs, games, max_scores=None):
 
-    def _eval_norm_score_placing(game, row):
-        placing = row["score"]
-        num_players = row["num_players"]
-        row["score"] = game.get_norm_score_placing(placing, num_players)
-        return row
-
-    def _eval_norm_score_no_placing(game, max_score, row):
+    def _eval_norm_score(row, game, **kwargs):
         score = row["score"]
         num_players = row["num_players"]
-        row["score"] = game.get_norm_score_no_placing(score, num_players, max_score)
+        row["score"] = game.get_norm_score(score, num_players=num_players, **kwargs)
         return row
 
     normed_per_game_dfs = {}
     for g in games:
         normed_per_game_dfs[g] = per_game_dfs[g].copy()
-        if g.placement_based:
-            # normed_per_game_dfs[g]["score"] = normed_per_game_dfs[g]["score"].apply(
-            #     lambda x: g.get_norm_score_placing(x)
-            # )
+        if max_scores is None:
             normed_per_game_dfs[g] = normed_per_game_dfs[g].apply(
-                lambda row: _eval_norm_score_placing(g, row),
+                lambda row: _eval_norm_score(row, g),
                 axis=1
             )
         else:
             max_score = max_scores[g]
-            # normed_per_game_dfs[g]["score"] = normed_per_game_dfs[g]["score"].apply(
-            #     lambda x: g.get_norm_score_no_placing(x, max_score)
-            # )
             normed_per_game_dfs[g] = normed_per_game_dfs[g].apply(
-                lambda row: _eval_norm_score_no_placing(g, max_score, row),
+                lambda row: _eval_norm_score(row, g, max_score=max_score),
                 axis=1
             )
     return normed_per_game_dfs
@@ -84,3 +71,7 @@ def get_final_counted_scores_df(normed_per_game_dfs, games):
         counted_scores_per_game_dfs[g].set_index("name", inplace=True)
     full_counted_df = pd.concat([d for _, d in counted_scores_per_game_dfs.items()], axis=1)
     return full_counted_df
+
+def get_num_games_played(score_df):
+    games_played_count = score_df[["name", "score"]].groupby(by="name").count()
+    return games_played_count["score"]
